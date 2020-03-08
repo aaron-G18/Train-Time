@@ -1,0 +1,27 @@
+table {
+    border: 10px solid black;
+}
+
+th {
+    border: 6px solid red;
+}
+
+td {
+    border: 3px solid green;
+}
+
+input {
+    width: 300px;
+}
+
+.top-banner {
+    border: 1px solid blue;
+}
+
+.entry-form {
+    padding: 10px;
+    border: 1px solid black;
+    width: 90%;
+    align-content: center;
+    margin: auto;
+}

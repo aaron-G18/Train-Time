@@ -4,12 +4,58 @@
 
 <head>
     <meta charset="UTF-8">
+    <title>Train Scheduling</title>
     <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 
 <body>
+    <div>
+        <div class="top-banner">BANNER HERE!</div>
 
+        <div class="schedules">
+            <div class="lable">Train Schedules</div>
+            <table class="train-times">
+                <thead>
+                    <tr>
+                        <th>Train Name</th>
+                        <th>Destination</th>
+                        <th>Frequency (min)</th>
+                        <th>Next Arrival</th>
+                        <th>Minutes to Arrival</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Test Train Name</td>
+                        <td>Paris</td>
+                        <td>30</td>
+                        <td>07:30 PM</td>
+                        <td>13</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div></div>
+        <div class="entry-form">
+            <div class="lable">Add Train</div>
+            <form>
+                <label for="train-name">Train Name:</label><br>
+                <input type="text" id="train-name" placeholder="Enter train name here"><br>
+                <label for="destination">Destination:</label><br>
+                <input type="text" id="destination" placeholder="Enter train destination here"><br>
+                <label for="first-time">First Train Time (hh:mm - military time):</label><br>
+                <input type="text" id="first-time" placeholder="Enter first arrival time here"><br>
+                <label for="frequency">Frequency:</label><br>
+                <input type="text" id="frequency" placeholder="Enter arrival frequency here"><br>
+                <button class="submit-button">Submit</button>
+            </form>
+        </div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
 
     <script src="https://code.jquery.com/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>

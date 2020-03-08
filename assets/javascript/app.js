@@ -22,7 +22,7 @@ $(".submit-button").on("click", function (event) {
     // get values from user input
     var trainName = $("#train-name").val().trim();
     var dest = $("#destination").val().trim();
-    var firstTime = moment($("#first-time").val().trim(), "hh:mm").format("X");
+    var firstTime = $("#first-time").val().trim();
     var freq = $("#frequency").val().trim();
 
     // make the new train an object
@@ -36,11 +36,11 @@ $(".submit-button").on("click", function (event) {
     // push newTrain object to firebase
     database.ref().push(newTrain);
 
-    // Logs values to console
-    console.log(newTrain.name);
-    console.log(newTrain.dest);
-    console.log(newTrain.firstTime);
-    console.log(newTrain.freq);
+
+    // console.log(newTrain.name);
+    // console.log(newTrain.dest);
+    // console.log(newTrain.firstTime);
+    // console.log(newTrain.freq);
 
 
     // Clears the input fields
@@ -48,4 +48,37 @@ $(".submit-button").on("click", function (event) {
     $("#destination").val("");
     $("#first-time").val("");
     $("#frequency").val("");
+});
+
+
+// Event handler for when a new object is pushed to Firebase and updating the html displayed on the page.
+database.ref().on("child_added", function (childSnapshot) {
+    console.log(childSnapshot.val());
+
+    // Store everything as variables
+    var trainName = childSnapshot.val().name;
+    var dest = childSnapshot.val().dest;
+    var firstTime = childSnapshot.val().firstTime;
+    var freq = childSnapshot.val().freq;
+    var nextArrive;
+    var timeToArrive;
+
+
+    console.log(trainName);
+    console.log(dest);
+    console.log(firstTime);
+    console.log(freq);
+
+
+    // Create a new table row with all the information as table data.
+    var newRow = $("<tr>").append(
+        $("<td>").text(trainName),
+        $("<td>").text(dest),
+        $("<td>").text("Every " + freq + " min"),
+        $("<td>").text(nextArrive),
+        $("<td>").text(timeToArrive + " min"),
+    );
+
+    // Append the new row to the table's html
+    $(".train-times > tbody").append(newRow);
 });

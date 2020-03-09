@@ -14,14 +14,21 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
-// put current date and time on page as "clock."
-var currentDate = moment().format("MMMM Do YYYY")
-var currentTime = moment().format("hh:mm a");
-$(".date").text(currentDate);
-$(".time").text(currentTime);
+// Function to put current date and time on page as "clock" and update the schedule section every minute on the minute.
+function updateStuff() {
+    var currentDate = moment().format("MMMM Do YYYY")
+    var currentTime = moment().format("hh:mm:ss a");
+    $(".date").text(currentDate);
+    $(".time").text(currentTime);
+    if (moment().second() === 0) {
+        updateSchedule();
+    }
+};
 
+// Interval to update the "clock" every second.
+setInterval(updateStuff, 1000);
 
-// Event handler and function for adding a train schedule
+// Event handler and function for adding a train schedule to firebase.
 $(".submit-button").on("click", function (event) {
     event.preventDefault();
 
@@ -50,46 +57,52 @@ $(".submit-button").on("click", function (event) {
 });
 
 
-// Event handler for when a new object is pushed to Firebase and updating the html displayed on the page.
-database.ref().on("child_added", function (childSnapshot) {
+// function for updating the schedule table.
+function updateSchedule() {
+    $("tbody").empty();
 
-    // Store everything as variables
-    var trainName = childSnapshot.val().name;
-    var dest = childSnapshot.val().dest;
-    var firstTime = childSnapshot.val().firstTime;
-    var freq = childSnapshot.val().freq;
-    var nextArrive;
-    var timeToArrival;
+    // Event handler for when a new object is pushed to Firebase to update the html displayed on the page.
+    database.ref().on("child_added", function (childSnapshot) {
 
-    /////// calculations:
-    // take first time from 1 year ago to avoid problems if first time is after current time. 
-    var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
+        // Store everything as variables
+        var trainName = childSnapshot.val().name;
+        var dest = childSnapshot.val().dest;
+        var firstTime = childSnapshot.val().firstTime;
+        var freq = childSnapshot.val().freq;
+        var nextArrive;
+        var timeToArrival;
 
-    // Find the difference between the current time and the first time of the train.
-    var timeDifference = moment().diff(moment(firstTimeConverted), "minutes");
+        /////// calculations:
+        // take first time from 1 year ago to avoid problems if first time is after current time. 
+        var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
 
-    // Modulo divide the timeDifference by the frequency to get a remainder, which is the amount 
-    // of time "into the amount of time between trains."
-    var timeRemainder = timeDifference % freq;
+        // Find the difference between the current time and the first time of the train.
+        var timeDifference = moment().diff(moment(firstTimeConverted), "minutes");
 
-
-    // Find time until next train by subtracting the remainder above from the frequency, and set the variable.
-    timeToArrival = freq - timeRemainder;
-
-    // Calculate the next arrival time and set the variable.
-    nextArrive = moment().add(timeToArrival, "minutes").format("hh:mm a");
-    console.log("ARRIVAL TIME: " + moment(nextArrive).format("hh:mm a"));
+        // Modulo divide the timeDifference by the frequency to get a remainder, which is the amount 
+        // of time "into the amount of time between trains."
+        var timeRemainder = timeDifference % freq;
 
 
-    // Create a new table row with all the information as table data.
-    var newRow = $("<tr>").append(
-        $("<td>").text(trainName),
-        $("<td>").text(dest),
-        $("<td>").text("Every " + freq + " min"),
-        $("<td>").text(nextArrive),
-        $("<td>").text(timeToArrival + " min"),
-    );
+        // Find time until next train by subtracting the remainder above from the frequency, and set the variable.
+        timeToArrival = freq - timeRemainder;
 
-    // Append the new row to the table's html
-    $(".train-times > tbody").append(newRow);
-});
+        // Calculate the next arrival time and set the variable.
+        nextArrive = moment().add(timeToArrival, "minutes").format("hh:mm a");
+
+        // Create a new table row with all the information as table data.
+        var newRow = $("<tr>").append(
+            $("<td>").text(trainName),
+            $("<td>").text(dest),
+            $("<td>").text("Every " + freq + " min"),
+            $("<td>").text(nextArrive),
+            $("<td>").text(timeToArrival + " min"),
+        );
+
+        // Append the new row to the table's html
+        $(".train-times > tbody").append(newRow);
+    });
+};
+
+// Initial update of the schedule table on page load.
+updateSchedule();

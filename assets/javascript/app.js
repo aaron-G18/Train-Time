@@ -14,6 +14,12 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
+// put current date and time on page as "clock."
+var currentDate = moment().format("MMMM Do YYYY")
+var currentTime = moment().format("hh:mm a");
+$(".date").text(currentDate);
+$(".time").text(currentTime);
+
 
 // Event handler and function for adding a train schedule
 $(".submit-button").on("click", function (event) {
@@ -68,6 +74,29 @@ database.ref().on("child_added", function (childSnapshot) {
     console.log(dest);
     console.log(firstTime);
     console.log(freq);
+
+    /////// calculations: 
+    var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
+    console.log("********");
+    console.log(firstTimeConverted);
+
+
+
+    // Difference between the times
+    var timeDifference = moment().diff(moment(firstTimeConverted), "minutes");
+    console.log("DIFFERENCE IN TIME: " + timeDifference);
+
+    // Time apart (remainder)
+    var tRemainder = timeDifference % freq;
+    console.log(tRemainder);
+
+    // Minute Until Train
+    timeToArrive = freq - tRemainder;
+    console.log("MINUTES TILL TRAIN: " + timeToArrive);
+
+    // Next Train
+    nextArrive = moment().add(timeToArrive, "minutes").format("hh:mm a");
+    console.log("ARRIVAL TIME: " + moment(nextArrive).format("hh:mm a"));
 
 
     // Create a new table row with all the information as table data.

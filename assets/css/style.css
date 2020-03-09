@@ -14,8 +14,14 @@ input {
     width: 300px;
 }
 
-.top-banner {
+.top-container {
+    text-align: center;
+    align-content: center;
     border: 1px solid blue;
+}
+
+.top-banner {
+    font-size: 36px;
 }
 
 .entry-form {

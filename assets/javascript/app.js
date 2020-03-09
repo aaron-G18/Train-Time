@@ -42,13 +42,6 @@ $(".submit-button").on("click", function (event) {
     // push newTrain object to firebase
     database.ref().push(newTrain);
 
-
-    // console.log(newTrain.name);
-    // console.log(newTrain.dest);
-    // console.log(newTrain.firstTime);
-    // console.log(newTrain.freq);
-
-
     // Clears the input fields
     $("#train-name").val("");
     $("#destination").val("");
@@ -59,7 +52,6 @@ $(".submit-button").on("click", function (event) {
 
 // Event handler for when a new object is pushed to Firebase and updating the html displayed on the page.
 database.ref().on("child_added", function (childSnapshot) {
-    console.log(childSnapshot.val());
 
     // Store everything as variables
     var trainName = childSnapshot.val().name;
@@ -67,35 +59,25 @@ database.ref().on("child_added", function (childSnapshot) {
     var firstTime = childSnapshot.val().firstTime;
     var freq = childSnapshot.val().freq;
     var nextArrive;
-    var timeToArrive;
+    var timeToArrival;
 
-
-    console.log(trainName);
-    console.log(dest);
-    console.log(firstTime);
-    console.log(freq);
-
-    /////// calculations: 
+    /////// calculations:
+    // take first time from 1 year ago to avoid problems if first time is after current time. 
     var firstTimeConverted = moment(firstTime, "HH:mm").subtract(1, "years");
-    console.log("********");
-    console.log(firstTimeConverted);
 
-
-
-    // Difference between the times
+    // Find the difference between the current time and the first time of the train.
     var timeDifference = moment().diff(moment(firstTimeConverted), "minutes");
-    console.log("DIFFERENCE IN TIME: " + timeDifference);
 
-    // Time apart (remainder)
-    var tRemainder = timeDifference % freq;
-    console.log(tRemainder);
+    // Modulo divide the timeDifference by the frequency to get a remainder, which is the amount 
+    // of time "into the amount of time between trains."
+    var timeRemainder = timeDifference % freq;
 
-    // Minute Until Train
-    timeToArrive = freq - tRemainder;
-    console.log("MINUTES TILL TRAIN: " + timeToArrive);
 
-    // Next Train
-    nextArrive = moment().add(timeToArrive, "minutes").format("hh:mm a");
+    // Find time until next train by subtracting the remainder above from the frequency, and set the variable.
+    timeToArrival = freq - timeRemainder;
+
+    // Calculate the next arrival time and set the variable.
+    nextArrive = moment().add(timeToArrival, "minutes").format("hh:mm a");
     console.log("ARRIVAL TIME: " + moment(nextArrive).format("hh:mm a"));
 
 
@@ -105,7 +87,7 @@ database.ref().on("child_added", function (childSnapshot) {
         $("<td>").text(dest),
         $("<td>").text("Every " + freq + " min"),
         $("<td>").text(nextArrive),
-        $("<td>").text(timeToArrive + " min"),
+        $("<td>").text(timeToArrival + " min"),
     );
 
     // Append the new row to the table's html

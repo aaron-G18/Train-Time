@@ -17,11 +17,25 @@ input {
 .top-container {
     text-align: center;
     align-content: center;
+    padding: 10px;
     border: 1px solid blue;
+    width: 90%;
+    margin: auto;
 }
 
 .top-banner {
     font-size: 36px;
+}
+
+.schedules {
+    width: 90%;
+    margin: auto;
+    padding: 10px;
+    border: 1px solid green;
+}
+
+.train-times {
+    width: 100%;
 }
 
 .entry-form {

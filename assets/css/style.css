@@ -1,17 +1,20 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
+    background-image: url(../images/train-station.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 h3 {
     font-size: 20px;
     text-decoration: underline;
+    font-weight: bold;
 }
 
 table {
     border-collapse: separate;
     border-spacing: 0px 8px;
-
-
 }
 
 th {
@@ -19,9 +22,8 @@ th {
     border-bottom: 5px groove lightgray;
     text-align: left;
     padding: 5px;
+    font-weight: bold;
 }
-
-tr {}
 
 td {
     font-size: 14px;
@@ -36,28 +38,48 @@ form {
 
 input {
     height: 20px;
-    width: 300px;
+    width: 470px;
     margin-top: 3px;
     margin-bottom: 10px;
 }
 
 button {
-    background-color: lightblue;
+    background-color: #39C3C1;
     color: white;
     text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
     font-size: 12px;
     border-radius: 3px;
+    height: 30px;
+    width: 80px;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: blue;
+}
+
+#background {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: -1;
+    opacity: 0.7;
+    /* height: 100%;
+    width: 100%; */
 }
 
 .top-container {
     text-align: center;
     align-content: center;
     padding: 10px;
-    border: 1px solid blue;
-    width: 90%;
+    border: 1px solid black;
+    width: 60%;
+    min-width: 475px;
     margin: auto;
     margin-bottom: 20px;
     border-radius: 10px;
+    background: rgba(255, 255, 255, 0.9);
+
 }
 
 .top-banner {
@@ -68,19 +90,21 @@ button {
     width: 100%;
     height: 30px;
     padding-top: 10px;
-    background-color: lightblue;
+    background-color: #39C3C1;
     text-align: center;
     margin-bottom: 10px;
     border-radius: 5px 5px 0px 0px;
 }
 
 .schedules {
-    width: 90%;
+    width: 80%;
+    min-width: 475px;
     margin: auto;
     padding: 10px;
-    border: 1px solid green;
+    border: 1px solid black;
     margin-bottom: 20px;
     border-radius: 10px;
+    background: rgba(255, 255, 255, 0.9);
 }
 
 .train-times {
@@ -90,8 +114,10 @@ button {
 .entry-form {
     padding: 10px;
     border: 1px solid black;
-    width: 90%;
+    width: 40%;
+    min-width: 475px;
     align-content: center;
     margin: auto;
     border-radius: 10px;
+    background: rgba(255, 255, 255, 0.9);
 }

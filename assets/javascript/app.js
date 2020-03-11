@@ -58,10 +58,6 @@ $(".submit-button").on("click", function (event) {
 });
 
 
-
-
-
-
 // Event handler for when a new object is pushed to Firebase to update the html displayed on the page.
 database.ref().on("child_added", function (childSnapshot) {
 
